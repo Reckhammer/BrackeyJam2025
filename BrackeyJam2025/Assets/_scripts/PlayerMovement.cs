@@ -48,6 +48,15 @@ public class PlayerMovement : MonoBehaviour
         if (canMove)
             moveInput = Input.GetAxisRaw("Horizontal");
 
+        if (moveInput > 0)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        else if (moveInput < 0)
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+
         if (Input.GetButtonDown("Jump"))
         {
             jumpBufferCounter = jumpBufferTime;
