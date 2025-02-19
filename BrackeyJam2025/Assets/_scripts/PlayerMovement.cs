@@ -34,11 +34,14 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundLayer;
 
     private Rigidbody2D RB;
+    private SpriteRenderer SR;
 
     private void Awake()
     {
         RB = GetComponent<Rigidbody2D>();
         RB.interpolation = RigidbodyInterpolation2D.Interpolate;
+
+        SR = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -48,14 +51,11 @@ public class PlayerMovement : MonoBehaviour
         if (canMove)
             moveInput = Input.GetAxisRaw("Horizontal");
 
+        // Flip the sprite depending on the x input direction
         if (moveInput > 0)
-        {
-            transform.localScale = new Vector3(1, 1, 1);
-        }
+            SR.flipX = false;
         else if (moveInput < 0)
-        {
-            transform.localScale = new Vector3(-1, 1, 1);
-        }
+            SR.flipX = true;
 
         if (Input.GetButtonDown("Jump"))
         {
