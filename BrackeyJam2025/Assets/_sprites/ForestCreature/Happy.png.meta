@@ -139,10 +139,10 @@ TextureImporter:
       name: Happy_0
       rect:
         serializedVersion: 2
-        x: 131
-        y: 7
-        width: 277
-        height: 455
+        x: 0
+        y: 0
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -160,10 +160,10 @@ TextureImporter:
       name: Happy_1
       rect:
         serializedVersion: 2
-        x: 644
-        y: 8
-        width: 277
-        height: 450
+        x: 512
+        y: 0
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
