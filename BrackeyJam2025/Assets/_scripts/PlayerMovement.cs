@@ -8,7 +8,8 @@ public class PlayerMovement : MonoBehaviour
     public float acceleration = 10f;
     public float deceleration = 10f;
     public float airControlMultiplier = 0.5f;
-    private float moveInput;
+    private float xInput;
+    private float yInput;
     private float targetSpeed;
     private float speedDiff;
     private float accelRate;
@@ -55,12 +56,15 @@ public class PlayerMovement : MonoBehaviour
         CheckGrounded();
 
         if (canMove)
-            moveInput = Input.GetAxisRaw("Horizontal");
+        {
+            xInput = Input.GetAxisRaw("Horizontal");
+            yInput = Input.GetAxisRaw("Vertical");
+        }
 
         // Flip the sprite depending on the x input direction
-        if (moveInput > 0)
+        if (xInput > 0)
             SR.flipX = false;
-        else if (moveInput < 0)
+        else if (xInput < 0)
             SR.flipX = true;
 
         if (Input.GetButtonDown("Jump"))
@@ -111,9 +115,17 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonDown("Dash") && (timeLastDashed - Time.time < 0f))
+        if (canDash && Input.GetButtonDown("Dash") && (Time.time - timeLastDashed > dashCooldownTime))
         {
-            
+            Vector2 dashMoveDirection;
+
+            if (xInput == 0f && yInput == 0f)
+                dashMoveDirection = SR.flipX ? Vector2.left : Vector2.right;
+            else
+                dashMoveDirection = new Vector2(xInput, yInput).normalized;
+
+            RB.AddForce(dashMoveDirection * dashForce);
+
             timeLastDashed = Time.time;
         }
     }
@@ -125,7 +137,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void ApplyMovement()
     {
-        targetSpeed = moveInput * moveSpeed;
+        targetSpeed = xInput * moveSpeed;
         speedDiff = targetSpeed - RB.velocity.x;
         accelRate = (isGrounded ? acceleration : acceleration * airControlMultiplier);
         float movement = Mathf.Lerp(RB.velocity.x, targetSpeed, accelRate * Time.fixedDeltaTime);
