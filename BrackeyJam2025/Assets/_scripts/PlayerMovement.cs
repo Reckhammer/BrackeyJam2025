@@ -33,6 +33,12 @@ public class PlayerMovement : MonoBehaviour
     public float groundCheckRadius = 0.2f;
     public LayerMask groundLayer;
 
+    [Header("Dash")]
+    public bool canDash = true;
+    public float dashForce = 200f;
+    public float dashCooldownTime = 1f;
+    private float timeLastDashed = 0f;
+
     private Rigidbody2D RB;
     private SpriteRenderer SR;
 
@@ -103,6 +109,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 RB.velocity = new Vector2(RB.velocity.x, RB.velocity.y * 0.5f);
             }
+        }
+
+        if (Input.GetButtonDown("Dash") && (timeLastDashed - Time.time < 0f))
+        {
+            
+            timeLastDashed = Time.time;
         }
     }
 
