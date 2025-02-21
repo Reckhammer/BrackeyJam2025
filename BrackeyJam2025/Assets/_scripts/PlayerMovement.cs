@@ -18,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
     public bool canJump = true;
     public float jumpForce = 12f;
     public float jumpTimeMax = 0.3f;
+    public int maxMultiJumps = 1;
+    private int multiJumpCounter;
     private float jumpTime;
     private bool isJumping;
 
@@ -62,10 +64,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Flip the sprite depending on the x input direction
-        if (xInput > 0)
-            SR.flipX = false;
-        else if (xInput < 0)
-            SR.flipX = true;
+        HandleSpriteDirection();
 
         if (Input.GetButtonDown("Jump"))
         {
@@ -76,21 +75,14 @@ public class PlayerMovement : MonoBehaviour
             jumpBufferCounter -= Time.deltaTime;
         }
 
-        if (isGrounded)
+        if (canJump && jumpBufferCounter > 0 && (coyoteTimeCounter > 0 || multiJumpCounter < maxMultiJumps))
         {
-            coyoteTimeCounter = coyoteTime;
-        }
-        else
-        {
-            coyoteTimeCounter -= Time.deltaTime;
-        }
-
-        if (canJump && jumpBufferCounter > 0 && coyoteTimeCounter > 0)
-        {
+            Debug.Log("Applying Jump Force");
             isJumping = true;
             jumpTime = jumpTimeMax;
             RB.velocity = new Vector2(RB.velocity.x, jumpForce);
             jumpBufferCounter = 0;
+            multiJumpCounter++;
         }
 
         if (Input.GetButton("Jump") && isJumping)
@@ -115,19 +107,8 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if (canDash && Input.GetButtonDown("Dash") && (Time.time - timeLastDashed > dashCooldownTime))
-        {
-            Vector2 dashMoveDirection;
-
-            if (xInput == 0f && yInput == 0f)
-                dashMoveDirection = SR.flipX ? Vector2.left : Vector2.right;
-            else
-                dashMoveDirection = new Vector2(xInput, yInput).normalized;
-
-            RB.AddForce(dashMoveDirection * dashForce);
-
-            timeLastDashed = Time.time;
-        }
+        if (canDash && Input.GetButtonDown("Dash"))
+            HandleDash();
     }
 
     private void FixedUpdate()
@@ -151,6 +132,38 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded)
         {
             coyoteTimeCounter = coyoteTime;
+            multiJumpCounter = 0;
         }
+        else
+        {
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+    }
+
+    private void HandleDash()
+    {
+        if (Time.time - timeLastDashed > dashCooldownTime)
+        {
+            Vector2 dashMoveDirection;
+
+            if (xInput == 0f && yInput == 0f)
+                dashMoveDirection = SR.flipX ? Vector2.left : Vector2.right;
+            else
+                dashMoveDirection = new Vector2(xInput, yInput).normalized;
+
+            RB.AddForce(dashMoveDirection * dashForce);
+            timeLastDashed = Time.time;
+        }
+    }
+
+    private void HandleSpriteDirection()
+    {
+        // if xInput is positive, moving right so look right
+        // if xInput is negative, moving left so look left
+        // Don't do anything if no xInput
+        if (xInput > 0)
+            SR.flipX = false;
+        else if (xInput < 0)
+            SR.flipX = true;
     }
 }
