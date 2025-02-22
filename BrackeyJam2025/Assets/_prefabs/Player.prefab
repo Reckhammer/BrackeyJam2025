@@ -121,8 +121,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1.0820312, y: 1.7773438}
+  m_Offset: {x: 0, y: -0.1}
+  m_Size: {x: 2, y: 3.75}
   m_Direction: 0
 --- !u!50 &3612942227914180220
 Rigidbody2D:
@@ -164,14 +164,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canMove: 1
-  speed: 5
+  moveSpeed: 8
+  acceleration: 10
+  deceleration: 10
+  airControlMultiplier: 0.5
   canJump: 1
-  jumpForce: 500
+  jumpForce: 10
+  jumpTimeMax: 0.3
+  maxMultiJumps: 1
+  coyoteTime: 0.2
+  jumpBufferTime: 0.2
   groundCheck: {fileID: 7808619166262530566}
   groundCheckRadius: 0.2
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
+  canDash: 1
+  dashForce: 1000
+  dashCooldownTime: 1
 --- !u!95 &2207512942864693853
 Animator:
   serializedVersion: 5
@@ -218,7 +228,7 @@ Transform:
   m_GameObject: {fileID: 6102737767265868871}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.86, z: 0}
+  m_LocalPosition: {x: 0, y: -2.02, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
