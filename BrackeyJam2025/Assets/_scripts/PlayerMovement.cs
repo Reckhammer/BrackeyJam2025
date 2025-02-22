@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -22,6 +23,8 @@ public class PlayerMovement : MonoBehaviour
     private int multiJumpCounter;
     private float jumpTime;
     private bool isJumping;
+    public event Action PlayerJumpStarted;
+    public event Action PlayerLanded;
 
     [Header("Jump Assistance")]
     public float coyoteTime = 0.2f;
@@ -77,12 +80,14 @@ public class PlayerMovement : MonoBehaviour
 
         if (canJump && jumpBufferCounter > 0 && (coyoteTimeCounter > 0 || multiJumpCounter < maxMultiJumps))
         {
-            Debug.Log("Applying Jump Force");
+            //Debug.Log("Applying Jump Force");
             isJumping = true;
             jumpTime = jumpTimeMax;
             RB.velocity = new Vector2(RB.velocity.x, jumpForce);
             jumpBufferCounter = 0;
             multiJumpCounter++;
+
+            PlayerJumpStarted?.Invoke();
         }
 
         if (Input.GetButton("Jump") && isJumping)
@@ -127,12 +132,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckGrounded()
     {
+        bool prevGroundedState = isGrounded;
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
 
         if (isGrounded)
         {
             coyoteTimeCounter = coyoteTime;
             multiJumpCounter = 0;
+
+            if (prevGroundedState == false)
+                PlayerLanded?.Invoke();
         }
         else
         {
