@@ -8,12 +8,17 @@ public class RewindObject : MonoBehaviour
     private List<TimeTick> timeTicks;
     private Rigidbody2D rb;
     private Animator animator;
+    private SpriteRenderer spriteRenderer;
+    private Color originalColor;
+    private Color rewindColor = new Color(0.5f, 0.7f, 1f, 0.8f);
 
     void Start()
     {
         timeTicks = new List<TimeTick>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        originalColor = spriteRenderer.color; 
     }
 
     void Update()
@@ -26,6 +31,12 @@ public class RewindObject : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.R))
         {
             StopRewind();
+        }
+
+        if (isRewinding)
+        {
+            float t = Mathf.PingPong(Time.time * 5f, 1f);
+            spriteRenderer.color = Color.Lerp(originalColor, rewindColor, t);
         }
     }
 
@@ -65,6 +76,7 @@ public class RewindObject : MonoBehaviour
         isRewinding = false;
         rb.isKinematic = false;
         animator.enabled = true;
+        spriteRenderer.color = originalColor;
         RestoreAnimationState();
     }
 
