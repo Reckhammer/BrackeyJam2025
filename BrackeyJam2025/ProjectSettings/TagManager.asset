@@ -50,12 +50,12 @@ TagManager:
   - name: Tiles
     uniqueID: 3396337019
     locked: 0
+  - name: UI
+    uniqueID: 1692807745
+    locked: 0
   - name: Player
     uniqueID: 3133785581
     locked: 0
   - name: FrontForeground
     uniqueID: 571541733
-    locked: 0
-  - name: UI
-    uniqueID: 1692807745
     locked: 0

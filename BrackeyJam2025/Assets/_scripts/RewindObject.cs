@@ -11,6 +11,7 @@ public class RewindObject : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
     private Color rewindColor = new Color(0.5f, 0.7f, 1f, 0.8f);
+    public AudioSource rewindSound;
     
     private bool isSelectingRewind = false;
     public float rewindSpeed = 3f;
@@ -42,11 +43,13 @@ public class RewindObject : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
             StartRewind();
+            rewindSound.Play();
         }
 
         if (Input.GetKeyUp(KeyCode.R))
         {
             StopRewind();
+            rewindSound.Stop();
         }
     }
 
