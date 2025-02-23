@@ -190,6 +190,7 @@ public class RewindObject : MonoBehaviour
             transform.rotation = timeTicks[index].quaternion;
             rb.isKinematic = false;
             animator.enabled = true;
+            spriteRenderer.color = originalColor;
             UIManager.Instance.HideRewindUI();
             PlayerManager.instance.playerMovement.EnablePlayerMovement(true);
         }
