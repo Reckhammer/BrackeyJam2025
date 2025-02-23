@@ -4,17 +4,23 @@ public class PlayerAnimator : MonoBehaviour
 {
     private Animator animator;
     private PlayerMovement playerMovement;
+    private PlayerHealth playerHealth;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        playerMovement = GetComponent<PlayerMovement>();
     }
 
     private void Start()
     {
+        playerMovement = PlayerManager.instance.playerMovement;
+
         playerMovement.PlayerJumpStarted += PlayerJumpStarted;
         playerMovement.PlayerLanded += PlayerLanded;
+
+        playerHealth = PlayerManager.instance.playerHealth;
+        playerHealth.PlayerDied += PlayerDeath;
+        PlayerManager.instance.PlayerRespawned += PlayerRespawned;
     }
 
     void Update()
@@ -33,5 +39,15 @@ public class PlayerAnimator : MonoBehaviour
     {
         animator.ResetTrigger("JumpTrigger");
         animator.SetTrigger("JumpLandTrigger");
+    }
+
+    private void PlayerDeath()
+    {
+        animator.SetTrigger("IsDead");
+    }
+
+    private void PlayerRespawned()
+    {
+        animator.SetTrigger("IsRespawned");
     }
 }

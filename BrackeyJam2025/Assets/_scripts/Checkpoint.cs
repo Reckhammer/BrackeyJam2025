@@ -4,20 +4,28 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
+    public bool isDefaultCheckpoint = false;
     private Animator animator;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     private void Start()
     {
-        animator = GetComponent<Animator>();
+        if (isDefaultCheckpoint)
+            CheckpointManager.instance.SetCheckpoint(this);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.GetComponent<PlayerMovement>() != null)
         {
-            // Do check point stuff
+            CheckpointManager.instance.SetCheckpoint(this);
 
-            animator.SetTrigger("Activate");
+            if (animator != null)
+                animator.SetTrigger("Activate");
         }
     }
 }

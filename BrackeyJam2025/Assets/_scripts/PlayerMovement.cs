@@ -45,15 +45,13 @@ public class PlayerMovement : MonoBehaviour
     public float dashCooldownTime = 1f;
     private float timeLastDashed = 0f;
 
-    private Rigidbody2D RB;
-    private SpriteRenderer SR;
+    public Rigidbody2D RB { get; private set; }
+    private SpriteRenderer SR => PlayerManager.instance.playerRenderer;
 
     private void Awake()
     {
         RB = GetComponent<Rigidbody2D>();
         RB.interpolation = RigidbodyInterpolation2D.Interpolate;
-
-        SR = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -174,5 +172,18 @@ public class PlayerMovement : MonoBehaviour
             SR.flipX = false;
         else if (xInput < 0)
             SR.flipX = true;
+    }
+
+    public void EnablePlayerMovement(bool enable)
+    {
+        canMove = enable;
+        canJump = enable;
+        canDash = enable;
+    }
+
+    public void ClearPlayerInput() //No slideeeeeee
+    {
+        xInput = 0f;
+        yInput = 0f;
     }
 }
