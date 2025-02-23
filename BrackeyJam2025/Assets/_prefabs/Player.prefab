@@ -342,6 +342,8 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  rewindSpeed: 3
+  rewindIndex: 0
 --- !u!1 &6102737767265868871
 GameObject:
   m_ObjectHideFlags: 0
