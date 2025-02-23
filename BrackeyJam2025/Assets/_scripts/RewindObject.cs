@@ -195,6 +195,7 @@ public class RewindObject : MonoBehaviour
             PlayerManager.instance.playerMovement.canMove = true;
             PlayerManager.instance.playerMovement.canJump = true;
             PlayerManager.instance.playerMovement.canDash = true;
+            spriteRenderer.color = originalColor;
         }
     }
 
