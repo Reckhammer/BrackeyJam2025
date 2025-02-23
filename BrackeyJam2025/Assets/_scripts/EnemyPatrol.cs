@@ -26,7 +26,6 @@ public class EnemyPatrol : MonoBehaviour
         if (AboutToFallOff())
             ReverseDirection();
 
-        Debug.Log($"Move Dir: {moveDir}");
         rb.velocity = moveDir * moveSpeed;
         animator.SetFloat("Speed", rb.velocity.magnitude);
     }
@@ -43,7 +42,6 @@ public class EnemyPatrol : MonoBehaviour
 
     private void ReverseDirection()
     {
-        Debug.Log("Reversing directions");
         if (isMovingRight)
         {
             // Now moving left
