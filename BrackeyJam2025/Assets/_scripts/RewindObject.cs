@@ -6,30 +6,30 @@ public class RewindObject : MonoBehaviour
     public bool isRewinding = false;
     public float maxTimeRecordInSeconds = 5;
     private List<TimeTick> timeTicks;
-    private Rigidbody2D rb;
+    private Rigidbody2D rb => PlayerManager.instance.playerMovement.RB;
     private Animator animator;
-    private SpriteRenderer spriteRenderer;
+    private SpriteRenderer spriteRenderer => PlayerManager.instance.playerRenderer;
     private Color originalColor;
     private Color rewindColor = new Color(0.5f, 0.7f, 1f, 0.8f);
 
     void Start()
     {
         timeTicks = new List<TimeTick>();
-        rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color; 
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetButtonDown("Rewind"))
         {
+            PlayerManager.instance.playerMovement.EnablePlayerMovement(false);
             StartRewind();
         }
 
-        if (Input.GetKeyUp(KeyCode.R))
+        if (Input.GetButtonUp("Rewind"))
         {
+            PlayerManager.instance.playerMovement.EnablePlayerMovement(true);
             StopRewind();
         }
 
