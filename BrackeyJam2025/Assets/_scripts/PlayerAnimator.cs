@@ -20,7 +20,7 @@ public class PlayerAnimator : MonoBehaviour
 
         playerHealth = PlayerManager.instance.playerHealth;
         playerHealth.PlayerDied += PlayerDeath;
-        PlayerManager.instance.PlayerRespawned += PlayerRespawned;
+        PlayerManager.instance.playerHealth.PlayerRevived += PlayerRespawned;
     }
 
     void Update()

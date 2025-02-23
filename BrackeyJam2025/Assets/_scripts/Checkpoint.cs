@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
+    // Implement Giving up rewind and respawning at mushroom
     public bool isDefaultCheckpoint = false;
     private Animator animator;
 
@@ -14,15 +15,15 @@ public class Checkpoint : MonoBehaviour
 
     private void Start()
     {
-        if (isDefaultCheckpoint)
-            CheckpointManager.instance.SetCheckpoint(this);
+        //if (isDefaultCheckpoint)
+        //    CheckpointManager.instance.SetCheckpoint(this);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.GetComponent<PlayerMovement>() != null)
         {
-            CheckpointManager.instance.SetCheckpoint(this);
+            //CheckpointManager.instance.SetCheckpoint(this);
 
             if (animator != null)
                 animator.SetTrigger("Activate");
