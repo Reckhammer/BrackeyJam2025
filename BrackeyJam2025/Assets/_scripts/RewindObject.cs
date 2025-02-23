@@ -11,6 +11,7 @@ public class RewindObject : MonoBehaviour
     private SpriteRenderer spriteRenderer => PlayerManager.instance.playerRenderer;
     private Color originalColor;
     private Color rewindColor = new Color(0.5f, 0.7f, 1f, 0.8f);
+    public AudioSource rewindSound;
 
     void Start()
     {
@@ -25,12 +26,14 @@ public class RewindObject : MonoBehaviour
         {
             PlayerManager.instance.playerMovement.EnablePlayerMovement(false);
             StartRewind();
+            rewindSound.Play();
         }
 
         if (Input.GetButtonUp("Rewind"))
         {
             PlayerManager.instance.playerMovement.EnablePlayerMovement(true);
             StopRewind();
+            rewindSound.Stop();
         }
 
         if (isRewinding)
