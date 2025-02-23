@@ -842,7 +842,7 @@ GameObject:
   - component: {fileID: 511815201}
   - component: {fileID: 511815200}
   m_Layer: 0
-  m_Name: TextButton (1)
+  m_Name: TextButton2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1330,7 +1330,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &775542723
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1418,8 +1418,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1142609730}
   - {fileID: 1292044992}
+  - {fileID: 1142609730}
   - {fileID: 91135957}
   - {fileID: 1789522691}
   m_Father: {fileID: 0}
@@ -2755,7 +2755,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Welcome to REWIND FOREST!
+  m_text: Use 'W', 'A', 'S', 'D', or your arrow keys to move Mr.Nothing to the mystical
+    mushroom!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2782,8 +2783,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 100
-  m_fontSizeBase: 100
+  m_fontSize: 95
+  m_fontSizeBase: 95
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
