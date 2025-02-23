@@ -6,9 +6,9 @@ public class RewindObject : MonoBehaviour
     public bool isRewinding = false;
     public float maxTimeRecordInSeconds = 5;
     private List<TimeTick> timeTicks;
-    private Rigidbody2D rb;
-    private Animator animator;
-    private SpriteRenderer spriteRenderer;
+    private Rigidbody2D rb => PlayerManager.instance.playerMovement.RB;
+    private Animator animator => PlayerManager.instance.animator;
+    private SpriteRenderer spriteRenderer => PlayerManager.instance.playerRenderer;
     private Color originalColor;
     private Color rewindColor = new Color(0.5f, 0.7f, 1f, 0.8f);
     public AudioSource rewindSound;
@@ -20,9 +20,6 @@ public class RewindObject : MonoBehaviour
     void Start()
     {
         timeTicks = new List<TimeTick>();
-        rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = spriteRenderer.color; 
         RewindManager.Instance.RegisterRewindObject(this);
     }
@@ -40,14 +37,16 @@ public class RewindObject : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetButtonDown("Rewind"))
         {
+            PlayerManager.instance.playerMovement.EnablePlayerMovement(false);
             StartRewind();
             rewindSound.Play();
         }
 
-        if (Input.GetKeyUp(KeyCode.R))
+        if (Input.GetButtonUp("Rewind"))
         {
+            PlayerManager.instance.playerMovement.EnablePlayerMovement(true);
             StopRewind();
             rewindSound.Stop();
         }
@@ -147,7 +146,7 @@ public class RewindObject : MonoBehaviour
     {
         float currentSpeed = rewindSpeed * Time.deltaTime;
 
-        if (Input.GetKey(KeyCode.R) && rewindIndex < timeTicks.Count - 1)
+        if (Input.GetButton("Rewind") && rewindIndex < timeTicks.Count - 1)
         {
             rewindIndex = Mathf.Clamp(
                 Mathf.RoundToInt(Mathf.Lerp(rewindIndex, timeTicks.Count - 1, currentSpeed)), 
@@ -156,7 +155,7 @@ public class RewindObject : MonoBehaviour
             PreviewRewindState(rewindIndex);
             UIManager.Instance.rewindGauge.UseRewind(Time.deltaTime);
         }
-        else if (Input.GetKey(KeyCode.F) && rewindIndex > 0)
+        else if (Input.GetButton("Forward") && rewindIndex > 0)
         {
             rewindIndex = Mathf.Clamp(
                 Mathf.RoundToInt(Mathf.Lerp(rewindIndex, 0, currentSpeed)), 
@@ -166,7 +165,7 @@ public class RewindObject : MonoBehaviour
             UIManager.Instance.rewindGauge.RefundRewind(Time.deltaTime);
         }
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetButtonDown("Submit"))
         {
             ConfirmRewindState(rewindIndex);
             isSelectingRewind = false;
@@ -192,9 +191,7 @@ public class RewindObject : MonoBehaviour
             rb.isKinematic = false;
             animator.enabled = true;
             UIManager.Instance.HideRewindUI();
-            PlayerManager.instance.playerMovement.canMove = true;
-            PlayerManager.instance.playerMovement.canJump = true;
-            PlayerManager.instance.playerMovement.canDash = true;
+            PlayerManager.instance.playerMovement.EnablePlayerMovement(true);
         }
     }
 
