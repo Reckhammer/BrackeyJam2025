@@ -16,7 +16,7 @@ public class CheckpointManager : MonoBehaviour
 
     private void Start()
     {
-        PlayerManager.instance.playerHealth.PlayerDied += StartRespawnCoroutine;
+        //PlayerManager.instance.playerHealth.PlayerDied += StartRespawnCoroutine;
     }
 
     private void OnDestroy()
@@ -34,7 +34,7 @@ public class CheckpointManager : MonoBehaviour
         PlayerManager.instance.playerMovement.transform.SetPositionAndRotation(currentRespawnPoint.transform.position, currentRespawnPoint.transform.rotation);
         PlayerManager.instance.playerMovement.RB.velocity = Vector2.zero;
 
-        PlayerManager.instance.PlayerRespawn();
+        PlayerManager.instance.playerHealth.PlayerRevive();
     }
 
     private void StartRespawnCoroutine()

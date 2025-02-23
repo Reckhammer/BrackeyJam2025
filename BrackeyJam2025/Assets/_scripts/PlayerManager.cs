@@ -16,9 +16,6 @@ public class PlayerManager : MonoBehaviour
     public PlayerHealth playerHealth;
     public Collider2D playerCollider;
     public Animator animator;
-
-    public event Action PlayerRespawned;
-
     private void Awake()
     {
         instance = this;
@@ -27,12 +24,6 @@ public class PlayerManager : MonoBehaviour
     private void OnDestroy()
     {
         instance = null;
-    }
-    
-    public void PlayerRespawn()
-    {
-        playerMovement.EnablePlayerMovement(true);
-        PlayerRespawned?.Invoke();
     }
 
 #if UNITY_EDITOR

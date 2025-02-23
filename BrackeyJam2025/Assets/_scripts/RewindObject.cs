@@ -9,6 +9,7 @@ public class RewindObject : MonoBehaviour
     private Rigidbody2D rb => PlayerManager.instance.playerMovement.RB;
     private Animator animator => PlayerManager.instance.animator;
     private SpriteRenderer spriteRenderer => PlayerManager.instance.playerRenderer;
+    private bool isDead => PlayerManager.instance.playerHealth.isDead;
     private Color originalColor;
     private Color rewindColor = new Color(0.5f, 0.7f, 1f, 0.8f);
     public AudioSource rewindSound;
@@ -37,14 +38,14 @@ public class RewindObject : MonoBehaviour
             return;
         }
 
-        if (Input.GetButtonDown("Rewind"))
+        if (!isDead && Input.GetButtonDown("Rewind"))
         {
             PlayerManager.instance.playerMovement.EnablePlayerMovement(false);
             StartRewind();
             rewindSound.Play();
         }
 
-        if (Input.GetButtonUp("Rewind"))
+        if (!isDead && Input.GetButtonUp("Rewind"))
         {
             PlayerManager.instance.playerMovement.EnablePlayerMovement(true);
             StopRewind();
@@ -193,6 +194,8 @@ public class RewindObject : MonoBehaviour
             spriteRenderer.color = originalColor;
             UIManager.Instance.HideRewindUI();
             PlayerManager.instance.playerMovement.EnablePlayerMovement(true);
+            rewindSound.Stop();
+            PlayerManager.instance.playerHealth.PlayerRevive();
         }
     }
 
